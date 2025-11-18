@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cat vs Dog Predictor</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 24px; }
+.box { max-width: 600px; margin: 0 auto; }
+img { max-width: 100%; height: auto; }
+pre { background:#f4f4f4; padding:12px; border-radius:6px }
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Cat vs Dog</h1>
+<p>Upload an image and the model will predict whether it's a cat or a dog.</p>
+<form id="f" enctype="multipart/form-data">
+<input type="file" name="file" accept="image/*" required />
+<button type="submit">Predict</button>
+</form>
+<h3>Result</h3>
+<pre id="out">No prediction yet.</pre>
+</div>
+
+
+<script>
+document.getElementById('f').onsubmit = async (e) => {
+e.preventDefault();
+const fd = new FormData(e.target);
+const res = await fetch('/predict', { method: 'POST', body: fd });
+const j = await res.json();
+document.getElementById('out').innerText = JSON.stringify(j, null, 2);
+}
+</script>
+</body>
+</html>
